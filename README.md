@@ -1,2 +1,2 @@
 # InmoovSoftware
-For anything software related to our Inmoov
+For anything software relating to the Camosun College Robotics and Automation club Inmoov project.
