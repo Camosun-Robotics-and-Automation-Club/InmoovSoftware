@@ -11,14 +11,14 @@ class StandardServo {
         void attach();
         void moveTowardsTarget(float degreesToMove);
     private:
-        byte m_pin;
+        byte m_pin = 1;
         Servo m_servo;
-        float m_PWMPerDegree;
-        int m_minRotation;
-        int m_maxRotation;
-        bool m_reverseDirection;
-        int m_defaultRotation;
-        int m_currentLocation;
+        float m_PWMPerDegree = 1000/180;
+        int m_minRotation = 1000;
+        int m_maxRotation = 2000;
+        bool m_reverseDirection = 0;
+        int m_defaultRotation = 1500;
+        int m_currentRotation = 1500;
 };
 
 #endif
