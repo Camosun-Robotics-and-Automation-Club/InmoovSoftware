@@ -10,6 +10,9 @@ class StandardServo {
         StandardServo(byte pin, float PWMPerDegree, int minRotation, int maxRotation ,bool reverseDirection, int defaultRotation);
         void attach();
         bool moveTowardsTarget(float degreesToMove);
+        bool moveToTarget(int target);
+        float getPWMPerDegree();
+        float getCurrentRotation();
     private:
         byte m_pin = 1;
         Servo m_servo;

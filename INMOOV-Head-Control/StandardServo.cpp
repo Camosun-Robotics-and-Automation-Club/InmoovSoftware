@@ -20,15 +20,25 @@ void StandardServo::attach() {
 }
 
 bool StandardServo::moveTowardsTarget(float degreesToMove) {
-  bool validMove;
   int newRotation = m_currentRotation + (degreesToMove * m_PWMPerDegree);//Get the new roation
-  if((newRotation > m_maxRotation) || (newRotation < m_minRotation)){//Check if it is in bounds
+  return moveToTarget(newRotation);
+}
+
+bool StandardServo::moveToTarget(int target){
+
+  bool validMove;
+  if((target > m_maxRotation) || (target < m_minRotation)){//Check if it is in bounds
     validMove = false;
   }else{
     validMove = true;
   }
-  newRotation = constrain(newRotation, m_minRotation, m_maxRotation);//Constain new roation to bounds
-  m_servo.writeMicroseconds(newRotation);//Write new rotation to servo
-  m_currentRotation = newRotation;//Update current posistion
+  target = constrain(target, m_minRotation, m_maxRotation);//Constain target roation to bounds
+  m_servo.writeMicroseconds(target);//Write target rotation to servo
+  m_currentRotation = target;//Update current posistion
   return validMove;//Return if the move was in bounds
+  
 }
+
+float StandardServo::getPWMPerDegree(){return m_PWMPerDegree;}
+
+float StandardServo::getCurrentRotation(){return ((m_currentRotation - 1000)/m_PWMPerDegree);}
