@@ -14,9 +14,10 @@ class StandardServo {
         float getPWMPerDegree();
         float getCurrentRotation();
     private:
+        bool moveToTargetMicroseconds(int target);
         byte m_pin = 1;
         Servo m_servo;
-        float m_PWMPerDegree = 1000/180;
+        float m_PWMPerDegree = (1000.0/180.0);
         int m_minRotation = 1000;
         int m_maxRotation = 2000;
         bool m_reverseDirection = 0;

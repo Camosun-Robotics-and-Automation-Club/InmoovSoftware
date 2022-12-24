@@ -21,11 +21,15 @@ void StandardServo::attach() {
 
 bool StandardServo::moveTowardsTarget(float degreesToMove) {
   int newRotation = m_currentRotation + (degreesToMove * m_PWMPerDegree);//Get the new roation
-  return moveToTarget(newRotation);
+  return moveToTargetMicroseconds(newRotation);
 }
 
 bool StandardServo::moveToTarget(int target){
+  target = ((target * m_PWMPerDegree) + 1000);
+  return moveToTargetMicroseconds(target);
+}
 
+bool StandardServo::moveToTargetMicroseconds(int target){
   bool validMove;
   if((target > m_maxRotation) || (target < m_minRotation)){//Check if it is in bounds
     validMove = false;
