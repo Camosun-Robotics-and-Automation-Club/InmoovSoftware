@@ -9,7 +9,7 @@ class StandardServo {
         StandardServo(byte pin);
         StandardServo(byte pin, float PWMPerDegree, int minRotation, int maxRotation ,bool reverseDirection, int defaultRotation);
         void attach();
-        void moveTowardsTarget(float degreesToMove);
+        bool moveTowardsTarget(float degreesToMove);
     private:
         byte m_pin = 1;
         Servo m_servo;
