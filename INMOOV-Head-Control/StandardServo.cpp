@@ -10,12 +10,13 @@ StandardServo::StandardServo(byte pin, float PWMPerDegree, int minRotation, int 
   m_PWMPerDegree = PWMPerDegree;
   m_minRotation = ((minRotation * m_PWMPerDegree) + 1000);
   m_maxRotation = ((maxRotation * m_PWMPerDegree) + 1000);
+  m_reverseDirection = reverseDirection;
   m_defaultRotation  = constrain(((defaultRotation * m_PWMPerDegree) + 1000), m_minRotation, m_maxRotation);
 }
 
 void StandardServo::attach() {
   m_servo.attach(m_pin);
-  m_servo.writeMicroseconds(m_defaultRotation);
+  moveToTargetMicroseconds(m_defaultRotation);
   m_currentRotation = m_defaultRotation;
 }
 
@@ -37,7 +38,11 @@ bool StandardServo::moveToTargetMicroseconds(int target){
     validMove = true;
   }
   target = constrain(target, m_minRotation, m_maxRotation);//Constain target roation to bounds
-  m_servo.writeMicroseconds(target);//Write target rotation to servo
+  if(m_reverseDirection){
+    m_servo.writeMicroseconds(map(target,1000,2000,2000,1000));//Write target rotation flipped to servo
+  }else{
+    m_servo.writeMicroseconds(target);//Write target rotation to servo
+  }
   m_currentRotation = target;//Update current posistion
   return validMove;//Return if the move was in bounds
   
