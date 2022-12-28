@@ -22,8 +22,10 @@ StandardServo::StandardServo(byte pin,
   m_maxPWMTime = maxPWMTime;                                //Aboslute maximum timing for the servo
   m_degreeRange = degreeRange;                              //The range of rotation for the servo in degrees
 
-  m_outputGearRatio = outputGearRatio;                      //Multiplier for servos conecting to part using a mechanical advantage input matamatical representation eg. 0.5 = 2/1
-  m_reverseDirection = reverseDirection;                    //Is the rotaion of the servo diffrent to the roation of the part
+  m_outputGearRatio = outputGearRatio;                      //Gear ration of the part that the servo is connected to(mathamatical representation eg. 0.5 = 2/1))
+  m_reverseDirection = reverseDirection;                    //Is the rotaion of the servo diffrent to the roation of the part?
+
+  m_rotationRangeDegrees = maxRotation - minRotation;       //The range of the part rotation in degrees
 
   m_minRotation = mapf((minRotation / m_outputGearRatio),    //PWM time minimum for part to rotate full range
                       0, 
@@ -38,15 +40,16 @@ StandardServo::StandardServo(byte pin,
                       m_maxPWMTime);
 
   m_startingRotation = mapf((startingRotation / m_outputGearRatio),  //PWM time to set when the .attach() function is called for home position
-                            0, m_degreeRange, 
-                            m_minPWMTime, 
-                            m_maxPWMTime);
+                            0, 
+                            m_rotationRangeDegrees, 
+                            m_minRotation, 
+                            m_maxRotation);
 
   m_currentRotation = startingRotation;                     //Current PWM time of the servo
 }
 
 float StandardServo::mapf(float x, float in_min, float in_max, float out_min, float out_max) {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 bool StandardServo::moveToTargetMicroseconds(float target){   
@@ -83,10 +86,10 @@ void StandardServo::attach() {
 bool StandardServo::moveRelative(float degreesToMove) {
   int newRotation = m_currentRotation + (mapf((degreesToMove / m_outputGearRatio),
                                             0, 
-                                            m_degreeRange, 
-                                            m_minPWMTime, 
-                                            m_maxPWMTime)) - m_minPWMTime;  //Remapf the input degrees to servo PWM time using the gear ratio
-                                                                            //and add it to the current rotation to create a new rotation
+                                            m_rotationRangeDegrees, 
+                                            m_minRotation,                     
+                                            m_maxRotation)) - m_minRotation;  //Remap the input degrees to servo PWM time using the gear ratio
+                                                                              //and add it to the current rotation to create a new rotation
   Serial.println(newRotation);
   return moveToTargetMicroseconds(newRotation);             // Move to that new rotation
 } 
@@ -94,9 +97,9 @@ bool StandardServo::moveRelative(float degreesToMove) {
 bool StandardServo::moveAbsolute(float degree){
   return moveToTargetMicroseconds(mapf((degree / m_outputGearRatio),
                                         0, 
-                                        m_degreeRange, 
-                                        m_minPWMTime, 
-                                        m_maxPWMTime));     //Remapf the input degrees to servo PWM time using the gear ratio
+                                        m_rotationRangeDegrees, 
+                                        m_minRotation, 
+                                        m_maxRotation));     //Remap the input degrees to servo PWM time using the gear ratio
 }
 
 float StandardServo::getGearRatio(){
@@ -108,6 +111,6 @@ float StandardServo::getCurrentRotation(){
             m_minPWMTime, 
             m_maxPWMTime, 
             0, 
-            m_degreeRange * m_outputGearRatio);             //Remapf the PWM timing of the servo to degrees on rotation on the robot
+            m_degreeRange * m_outputGearRatio);             //Remap the PWM timing of the servo to degrees on rotation on the robot
 }
             

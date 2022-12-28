@@ -25,7 +25,7 @@ class StandardServo {
                       bool reverseDirection,    //Is the rotation of the part different to that of the servo?
                       int minRotation,          //Min rotation of the part(in degrees)
                       int maxRotation,          //Max rotation of the part(in degrees) 
-                      int startingRotation);    //The rotation of the part to set when the servo is started(in degrees)
+                      int startingRotation);    //The rotation of the part to set when the servo is started(in degrees relative to the min/max Rotation)
         
         /*
             Modifed arduino standard map function that uses floats
@@ -40,6 +40,7 @@ class StandardServo {
 
         /* 
             Move the robot a given amount from its current position(in degrees)
+            This is relative to the min/max Rotation(0=minRotation)
             Will constrain the move to min and max rotation
             Returns true if the move was in bounds, returns false if the move was constrained
         */
@@ -47,6 +48,7 @@ class StandardServo {
 
         /*
             Move the robot to a specific location(in degrees)
+            This is relative to the min/max Rotation(0=minRotation)
             Will constrain the move to min and max rotation
             Returns true if the move was in bounds, returns false if the move was constrained
         */
@@ -78,7 +80,10 @@ class StandardServo {
         float m_outputGearRatio = 1;    
         bool m_reverseDirection = 0;    
         int m_minRotation = 1000;       
-        int m_maxRotation = 2000;       
+        int m_maxRotation = 2000;
+        int m_minRotationDegrees = 0;       
+        int m_maxRotationDegrees = 180;
+        int m_rotationRangeDegrees = 180;       
         int m_startingRotation = 1500;  
 
         int m_currentRotation = 1500;  
