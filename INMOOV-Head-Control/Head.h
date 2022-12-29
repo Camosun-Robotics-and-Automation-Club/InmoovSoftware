@@ -1,4 +1,4 @@
-include "StandardServo.h"
+#include "StandardServo.h"
 
 class Head {
     public:
@@ -20,4 +20,5 @@ class Head {
         float m_currentRotations[6];
         StandardServo m_allServos[6];
         int m_servoUpdateRate = 40;
+        
 };

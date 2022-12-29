@@ -7,7 +7,7 @@ Head::Head(StandardServo eyesPanServo,
             StandardServo headYawServo,
             StandardServo headPitchServo,
             StandardServo headRollServo,
-            int servoUpdataRate)                //NUmber of times perr second 
+            int servoUpdataRate)                //Number of times per second the servos update
 {   
     m_allServos[0] = eyesPanServo;
     m_allServos[1] = eyesTiltServo;
@@ -19,8 +19,10 @@ Head::Head(StandardServo eyesPanServo,
     m_servoUpdateRate = servoUpdataRate;
 
     for(byte i = 0; i < 6; i++){    // Set all current/target rotations to the servos' starting rotation
-        m_currentRotations[i] = m_allServos[i].getCurrentRotation();
-        m_targetRotations[i] = m_allServos[i].getCurrentRotation();
+        //m_currentRotations[i] = m_allServos[i].getCurrentRotation();
+        //m_targetRotations[i] = m_allServos[i].getCurrentRotation();
+        m_currentRotations[i] = 90;
+        m_targetRotations[i] = 90;
     }
 }
 
@@ -60,16 +62,16 @@ bool Head::rotateToTarget(float duration,
         interruptFlag = &interrupt;
     }
     //Do movement stuff....
-    float updateRate = m_servoUpdateRate/1000;//Update rate of the servos in ms^-1
+    float updateRate = float(m_servoUpdateRate)/1000.0;//Update rate of the servos in ms^-1
     float rotationsPerStep[6];
     for(byte i; i < 6; i++){  //For each servo
         float rotationAmount = m_targetRotations[i] - m_currentRotations[i];  //Get the range between the current rotation and the target rotation
         rotationsPerStep[i] = rotationAmount / (updateRate * duration);  //Get the degrees per step
-
+        m_currentRotations[i] = m_targetRotations[i];
         //TODO: Check if the rotation per step is to small for the servo to register
     }
 
-    for(byte i = 0; i < (updateRate * (duration/1000));i++){
+    for(byte i = 0; i < updateRate * duration;i++){
         for(byte s = 0; s < 6; s++){  //For each servo
             m_allServos[s].moveRelative(rotationsPerStep[s]);
         }
