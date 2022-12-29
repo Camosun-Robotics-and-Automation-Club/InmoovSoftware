@@ -94,7 +94,7 @@ void StandardServo::attach() {
 bool StandardServo::moveRelative(float degreesToMove) {
   int newRotation = m_currentRotation + degreesToPWM(degreesToMove);  //Remap the input degrees to servo PWM time using the gear ratio
                                                                       //and add it to the current rotation to create a new rotation
-  Serial.println(newRotation);
+                                                                      
   return moveToTargetMicroseconds(newRotation);             // Move to that new rotation
 } 
 
