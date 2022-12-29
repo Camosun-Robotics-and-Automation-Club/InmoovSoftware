@@ -36,6 +36,11 @@ class StandardServo {
             Remaps x in the range in_min to in_max, to the range out_min to out_max
         */
         float mapf(float x, float in_min, float in_max, float out_min, float out_max);
+
+        /*
+            Returns the change in PWM time to rotate the part the given number of degrees
+        */
+        float degreesToPWM(float degrees);
         
         /*
             Initializes the servo and sets it to its default rotation
