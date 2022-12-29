@@ -54,6 +54,7 @@ bool Head::rotateToTarget(float duration,
                           bool* interruptFlag = 0,
                           bool interruptOnSerial = false)
 {   
+    long startTime = millis();
     //if the interrupt flag is at its default state, set its reference to a false bool
     if(interruptFlag == 0){
         const bool interrupt = false;
@@ -67,13 +68,16 @@ bool Head::rotateToTarget(float duration,
         degreesPerStep[i] = rotationAmount / (updateRate * duration);  //Get the degrees per step
         //TODO: Check if the rotation per step is to small for the servo to register
     }
-
-    for(byte i = 0; i < updateRate * duration;i++){
-        for(byte s = 0; s < 6; s++){  //For each servo
-            m_currentRotations[s] += degreesPerStep[s];
-            m_allServos[s].moveAbsolute(m_currentRotations[s]);
+    float delayPerStep = 1 / updateRate;
+    int count = 1;
+    while(count <= (updateRate * duration)){ //Loop until count has reached number of steps needed
+        if((millis() - startTime) >  (delayPerStep * count)){ //Timer goes off every delayPerStep
+            count++;
+            for(byte s = 0; s < 6; s++){  //For each servo update its position by one step
+                m_currentRotations[s] += degreesPerStep[s];
+                m_allServos[s].moveAbsolute(m_currentRotations[s]);
+            }
         }
-        delay(1/updateRate);
     }
 
     return false;
