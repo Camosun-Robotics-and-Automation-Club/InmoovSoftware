@@ -61,21 +61,20 @@ bool Head::rotateToTarget(float duration,
     }
     //Do movement stuff....
     float updateRate = float(m_servoUpdateRate)/1000.0;//Update rate of the servos in ms^-1
-    float rotationsPerStep[6];
+    float degreesPerStep[6];
     for(byte i; i < 6; i++){  //For each servo
         float rotationAmount = m_targetRotations[i] - m_currentRotations[i];  //Get the range between the current rotation and the target rotation
-        rotationsPerStep[i] = rotationAmount / (updateRate * duration);  //Get the degrees per step
-        m_currentRotations[i] = m_targetRotations[i];
+        degreesPerStep[i] = rotationAmount / (updateRate * duration);  //Get the degrees per step
         //TODO: Check if the rotation per step is to small for the servo to register
     }
 
     for(byte i = 0; i < updateRate * duration;i++){
         for(byte s = 0; s < 6; s++){  //For each servo
-            m_allServos[s].moveRelative(rotationsPerStep[s]);
+            m_currentRotations[s] += degreesPerStep[s];
+            m_allServos[s].moveAbsolute(m_currentRotations[s]);
         }
         delay(1/updateRate);
     }
-
 
     return false;
 
