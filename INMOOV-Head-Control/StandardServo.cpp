@@ -20,12 +20,12 @@ StandardServo::StandardServo(byte pin,
   m_pin = pin;                                              //Data pin number for the servo
   m_minPWMTime = minPWMTime;                                //Absolute minimum timing for the servo
   m_maxPWMTime = maxPWMTime;                                //Aboslute maximum timing for the servo
-  m_degreeRange = degreeRange;                              //The range of rotation for the servo in degrees
-
-  m_outputGearRatio = outputGearRatio;                      //Gear ration of the part that the servo is connected to(mathamatical representation eg. 0.5 = 2/1))
-  m_reverseDirection = reverseDirection;                    //Is the rotaion of the servo diffrent to the roation of the part?
+  m_degreeRange = degreeRange;                              //The aboslute max range of rotation for the servo in degrees
 
   m_rotationRangeDegrees = maxRotation - minRotation;       //The range of the part rotation in degrees
+ 
+  m_outputGearRatio = outputGearRatio;                      //Gear ration of the part that the servo is connected to(mathamatical representation eg. 0.5 = 2/1))
+  m_reverseDirection = reverseDirection;                    //Is the rotaion of the servo diffrent to the roation of the part?
 
   m_minRotation = mapf((minRotation / m_outputGearRatio),    //PWM time minimum for part to rotate full range
                       0, 
@@ -41,7 +41,7 @@ StandardServo::StandardServo(byte pin,
 
   m_startingRotation = mapf((startingRotation / m_outputGearRatio),  //PWM time to set when the .attach() function is called for home position
                             0, 
-                            m_rotationRangeDegrees, 
+                            m_rotationRangeDegrees,  
                             m_minRotation, 
                             m_maxRotation);
 
@@ -107,10 +107,10 @@ float StandardServo::getGearRatio(){
 }
 
 float StandardServo::getCurrentRotation(){
-  return mapf(m_currentRotation,
-            m_minPWMTime, 
-            m_maxPWMTime, 
+  return mapf((m_currentRotation),
+            (m_minRotation), 
+            (m_maxRotation), 
             0, 
-            m_degreeRange * m_outputGearRatio);             //Remap the PWM timing of the servo to degrees on rotation on the robot
+            m_rotationRangeDegrees * m_outputGearRatio);             //Remap the PWM timing of the servo to degrees on rotation on the robot
 }
             
