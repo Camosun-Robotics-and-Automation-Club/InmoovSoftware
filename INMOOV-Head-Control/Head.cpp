@@ -19,10 +19,8 @@ Head::Head(StandardServo eyesPanServo,
     m_servoUpdateRate = servoUpdataRate;
 
     for(byte i = 0; i < 6; i++){    // Set all current/target rotations to the servos' starting rotation
-        //m_currentRotations[i] = m_allServos[i].getCurrentRotation();
-        //m_targetRotations[i] = m_allServos[i].getCurrentRotation();
-        m_currentRotations[i] = 90;
-        m_targetRotations[i] = 90;
+        m_currentRotations[i] = m_allServos[i].getCurrentRotation();
+        m_targetRotations[i] = m_allServos[i].getCurrentRotation();
     }
 }
 
