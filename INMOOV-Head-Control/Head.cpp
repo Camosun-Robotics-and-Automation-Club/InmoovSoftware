@@ -73,7 +73,7 @@ bool Head::rotateToTarget(float duration,
         for(byte s = 0; s < 6; s++){  //For each servo
             m_allServos[s].moveRelative(rotationsPerStep[s]);
         }
-        delay(1/(updateRate * duration));
+        delay(1/updateRate);
     }
 
 
