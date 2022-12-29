@@ -10,6 +10,10 @@
 class StandardServo {
     public:
         /*
+            Default constuctor
+        */
+        StandardServo();
+        /*
             Constructor only specifying pin number
         */
         StandardServo(byte pin);

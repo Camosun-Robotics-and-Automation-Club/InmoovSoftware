@@ -2,7 +2,7 @@
 #include <Servo.h>
 #include "StandardServo.h"
 
-StandardServo::
+StandardServo::StandardServo(){};
 
 StandardServo::StandardServo(byte pin){
   m_pin = pin; 
