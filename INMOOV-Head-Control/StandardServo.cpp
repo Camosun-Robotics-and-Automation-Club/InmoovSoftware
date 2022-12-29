@@ -52,6 +52,14 @@ float StandardServo::mapf(float x, float in_min, float in_max, float out_min, fl
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+float StandardServo::degreesToPWM(float degreesToMove){
+  return (mapf((degreesToMove / m_outputGearRatio),
+                0, 
+                m_rotationRangeDegrees, 
+                m_minRotation,                     
+                m_maxRotation) - m_minRotation);            //Converts change in degrees to change PWM time
+}
+
 bool StandardServo::moveToTargetMicroseconds(float target){   
   bool validMove;
   if((target > m_maxRotation) || (target < m_minRotation)){ //Check if target rotation is in bounds
@@ -84,12 +92,8 @@ void StandardServo::attach() {
 }
 
 bool StandardServo::moveRelative(float degreesToMove) {
-  int newRotation = m_currentRotation + (mapf((degreesToMove / m_outputGearRatio),
-                                            0, 
-                                            m_rotationRangeDegrees, 
-                                            m_minRotation,                     
-                                            m_maxRotation)) - m_minRotation;  //Remap the input degrees to servo PWM time using the gear ratio
-                                                                              //and add it to the current rotation to create a new rotation
+  int newRotation = m_currentRotation + degreesToPWM(degreesToMove);  //Remap the input degrees to servo PWM time using the gear ratio
+                                                                      //and add it to the current rotation to create a new rotation
   Serial.println(newRotation);
   return moveToTargetMicroseconds(newRotation);             // Move to that new rotation
 } 
