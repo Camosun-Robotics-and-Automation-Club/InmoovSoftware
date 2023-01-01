@@ -44,7 +44,7 @@ void setup()
 
 void loop()
 {
-  while (exampleMovement() == false)
-    ;
+  while (exampleMovement() == false);
   Serial.println("interrupt detected");
+  delay(5000);
 }
