@@ -1,0 +1,7 @@
+bool idleRoutine()
+{
+    bool wasInterupted = false;
+    head.setHeadRotationTarget(random(15, 45), 0, 0);
+    wasInterupted = head.rotateToTarget(duration, &interupt1, true);
+    return wasInterupted;
+}

@@ -17,18 +17,20 @@ Head head(servo_1,
           40);
 
 int duration = 3000;
-volatile bool interupt1 = 0;
-#define interuptPin 2  // Pin number for the digital interupt, !NOTE! only certain pins can be used as interupts
+volatile bool interrupt1 = 0;
+#define interruptPin 2 // Pin number for the digital interrupt, !NOTE! only certain pins can be used as interrupts
 
-bool interupt()
+bool interrupt()
 {
-  if (digitalRead(interuptPin))
+  if (digitalRead(interruptPin))
   {
-    interupt1 = 0;
-  } else {
-    interupt1 = 1;
+    interrupt1 = 0;
   }
-  return interupt1;
+  else
+  {
+    interrupt1 = 1;
+  }
+  return interrupt1;
 }
 
 void setup()
@@ -36,12 +38,13 @@ void setup()
   head.attach();
   Serial.begin(9600);
   randomSeed(analogRead(A0));
-  pinMode(interuptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(interuptPin), interupt, CHANGE);
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), interrupt, CHANGE);
 }
-
 
 void loop()
 {
-while(exampleMovement() == false);
+  while (exampleMovement() == false)
+    ;
+  Serial.println("interrupt detected");
 }
