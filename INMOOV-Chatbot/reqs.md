@@ -8,5 +8,4 @@
 
 1. Get cleverbotfree working
 2. Make text to speech file
-3. Enable bluetooth connectivity
 4. Make GUI
