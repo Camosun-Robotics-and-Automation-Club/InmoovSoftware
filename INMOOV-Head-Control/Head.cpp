@@ -7,7 +7,7 @@ Head::Head(StandardServo eyesPanServo,
            StandardServo headYawServo,
            StandardServo headPitchServo,
            StandardServo headRollServo,
-           int servoUpdataRate)                                                //Number of times per second the servos update
+           int servoUpdatesPerSecond)                                                //Number of times per second the servos update
 {
   m_allServos[0] = eyesPanServo;                                              //Add each servo object to the all servos array
   m_allServos[1] = eyesTiltServo;
@@ -16,7 +16,7 @@ Head::Head(StandardServo eyesPanServo,
   m_allServos[4] = headPitchServo;
   m_allServos[5] = headRollServo;
 
-  m_servoUpdateRate = servoUpdataRate;                                        //How many times per second the servos' position is updated
+  m_servoUpdatesPerSecond = servoUpdatesPerSecond;                                        //How many times per second the servos' position is updated
 
   for (byte i = 0; i < 6; i++) {                                              // Set all current/target rotations to the servos' starting rotation
     m_currentRotations[i] = m_allServos[i].getCurrentRotation();
@@ -62,7 +62,7 @@ bool Head::rotateToTarget(float duration,
     interruptFlag = &interrupt;
   }
 
-  float updateRate = float(m_servoUpdateRate) / 1000.0;                       //Update rate of the servos in ms^-1
+  float updateRate = float(m_servoUpdatesPerSecond) / 1000.0;                       //Update rate of the servos in ms^-1
 
   float degreesPerStep[6];
 

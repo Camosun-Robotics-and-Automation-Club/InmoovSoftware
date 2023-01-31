@@ -8,7 +8,7 @@ class Head {
          StandardServo headYawServo,
          StandardServo headPitchServo,
          StandardServo headRollServo,
-         int servoUpdataRate);  //How many times per second the servos' position is updated
+         int servoUpdatesPerSecond);  //How many times per second the servos' position is updated
 
     /*
         Attaches all the servos
@@ -48,6 +48,6 @@ class Head {
     float m_currentRotations[6];    //Current rotatinos for all the servos
     StandardServo m_allServos[6];   //All the servo objects
 
-    int m_servoUpdateRate = 40;
+    int m_servoUpdatesPerSecond = 40;
 
 };
