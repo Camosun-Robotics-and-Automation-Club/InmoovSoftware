@@ -19,5 +19,5 @@ from GUI import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.gui, name='gui')
+    path('', views.gui, name='gui'),
 ]
