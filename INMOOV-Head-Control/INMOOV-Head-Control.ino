@@ -56,12 +56,7 @@ void loop()
   prints interrupt detected and waits 5 seconds before looping back to the top and checking the interrupt
   state returned by the example movement function
   */
-  while (exampleMovement() == false)
-  {
-    Serial.println("interrupt1");
-    Serial.println(interrupt1);
-  }
-  Serial.println("interrupt detected");
-  Serial.println(interrupt1);
-  delay(5000);
+  while (exampleMovement() == false);
+  Serial.println("Interrupt1 Triggered");
+  delay(2000);
 }
