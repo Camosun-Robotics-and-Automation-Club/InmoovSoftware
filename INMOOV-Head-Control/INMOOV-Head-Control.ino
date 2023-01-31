@@ -25,17 +25,9 @@ volatile bool interrupt1 = 0; //  Variable for the state of the interrupt
 /*
 Function to monitor the interrupt pin that returns the interrupt state
 */
-bool interrupt()
+void interrupt()
 {
-  if (digitalRead(interruptPin))
-  {
-    interrupt1 = 0;
-  }
-  else
-  {
-    interrupt1 = 1;
-  }
-  return interrupt1;
+  interrupt1 = !digitalRead(interruptPin);
 }
 
 void setup()
