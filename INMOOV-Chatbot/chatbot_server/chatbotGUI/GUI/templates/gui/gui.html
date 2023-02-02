@@ -8,13 +8,17 @@
             <legend class="border-bottom mb-4">Talk to the INMOOV</legend>
             {% csrf_token %}
             <input type="text" name="input">
+            <br><br>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="'submit" name="Chat">Chat</button>
-                <button class="btn btn-outline-info" type="'submit" name="Reset">Reset</button>
+                <button class="btn btn-outline-info" type="submit" name="Chat">Chat</button>
+                <button class="btn btn-outline-info" type="submit" name="Reset" value="reset">Reset</button>
             </div>
         </form>
-        {% for input in inputs %}
+        <br>
+        <div class="chat_area">
+            {% for input in inputs %}
             <p>{{ input }}</p>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}
